@@ -31,26 +31,86 @@ class Snake()
     
     def move(self,foodPosition):
         if self.direction == 'RIGHT':
-            self.head[0] += 1
+            self.position += 10
          if self.direction == 'LEFT':
-            self.head[0] -= 1
+            self.position -= 10
         if self.direction == 'UP':
-            self.head[0] -= 1
+            self.position -= 10
         if self.direction == 'DOWN':
-            self.head[0] += 1
+            self.position += 10
 
 class Food()
     def __init__(self):
-        self.position = [random.randrange(1,72)*10, random.randrange(1,46)*10]
+        self.position = [random.randrange(1,50)*10, random.randrange(1,25)*10]
         self.spawn = true
+
+#FPS Controller
+fpsController = pygame.time.clock()
+
+#Score
+score = 0
 
 #Initialising the game
 snake = Snake()
 food = Food()
 
 gameSurface = pygame.display.setMode((500,250)
+gameSurface.fill(black)
 pygame.display.set_caption("Your Snake Game starts in the next few seconds...")
 pygame.time.wait(1000)
 
+#Score
+def showScore(choice=1)
+    scoreFont = pygame.font.SysFont('arial',24)
+    scoreSurf = scoreFont.render('Score:{0}'.format(score), True, white)
+    scoreRect = scoreSurf.get_rect()
+    if choice ==1:
+        scoreRect.midtop = (80,10)
+    else
+        scoreRect.midtop = (360,150)
+
+    gameSurface.blit(scoreSurf, scoreRect)
+
+#Game Over
+def gameOver():
+    pygame.display.setCaption("Snake Game | Your score: "+str(score)+" | GAME OVER)
+    pygame.display.flip()
+    time.sleep(3)
+    pygame.quit()
+    sys.exit()
+
+#Game Start
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            gameOver
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                snake.changeDirection("RIGHT")
+            if event.key == pygame.K_LEFT:
+                snake.changeDirection("LEFT")
+            if event.key == pygame.K_UP:
+                snake.changeDirection("UP")
+            if event.key == pygame.K_DOWN:
+                snake.changeDirection("DOWN")
+            if event.key == pygame.K_ESCAPE:
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+foodPosition = foodSpawn()
+    if snake.move(foodPosition) == 1:
+        score +=1
+        foodSpawn = False
+    else snakeBody.pop
+
+gameSurface.fill(black)
+    for position in snakeBody:
+        pygame.draw.rect(gameSurface,green,pygame.Rect(snakePosition[0],snakePosition[1],10,10))
+
+pygame.draw.rect(gameSurface,orange,pygame.Rect(foodPosition[0],foodPosition[1],10,10))
+
+#Show Score
+showScore()
+pygame.display.flip()
+fpsController.tick(1)
 
 
