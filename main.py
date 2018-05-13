@@ -9,7 +9,7 @@ import random
 pygame.init()
 
 #Game Surface
-gameSurface = pygame.display.set_mode((500,250))
+gameSurface = pygame.display.set_mode((700,350))
 pygame.display.set_caption("Python Snake Game")
 pygame.time.wait(1000)
 
@@ -21,12 +21,12 @@ orange = pygame.Color(255,165,0)#Food
 red = pygame.Color(255,64,64)#GameOver
 
 #FPS Controller
-fpsController = pygame.time.clock()
+fpsController = pygame.time.Clock()
 
 #Variables and directions
 class Snake:
     def __init__(self):
-        self.body = [[40,50],[30,50],[20,50]]
+        self.body = [[100,50],[90,50],[80,50]]
         self.position = [50]
         self.direction = "RIGHT"
         
@@ -52,8 +52,8 @@ class Snake:
 
 class Food:
     def __init__(self):
-        self.position = [random.randrange(1,50)*10, random.randrange(1,25)*10]
-        self.spawn = true
+        self.position = [random.randrange(1,72)*10, random.randrange(1,46)*10]
+        self.spawn = True
 
 #Score
 score = 0
