@@ -9,7 +9,7 @@ import random
 pygame.init()
 
 #Game Surface
-# each patch is 10 x 10 px -> 70x35 patches
+#Each patch is 10 x 10 px -> 70x35 patches
 gameSurface = pygame.display.set_mode((700,350))
 pygame.display.set_caption("Python Snake Game")
 pygame.time.wait(1000)
@@ -51,45 +51,47 @@ class Snake:
             mv = [0,-10]
         if self.direction == 'DOWN':
             mv = [0,10]
-        # change position according to mv
-        # itemwise addition of two lists
+        
+        #Change position according to mv
+        #Itemwise addition of two lists
         self.position = [self.position[i] + mv[i] for i in range(len(self.position))]
 
-        # check if out of bounds
+        #Check if out of bounds
         w,h = pygame.display.get_surface().get_size()
         if self.position[0]<0 or self.position[0]>= w:
             gameOver(self)
         if self.position[1]<0 or self.position[1]>= h:
             gameOver(self)
-        # check if eating myself
+        
+        #Check if eating myself
         if self.position in self.body:
             gameOver(self)
 
-        # check if snake found food
+        #Check if snake found food
         if self.position == food.position:
-            # if yes: grow (add new position to current body)
+            #If yes: grow (add new position to current body)
             self.body = [self.position] + self.body
-            # increase score
+            #Increase score
             self.score += 1
-            # regrow food
+            #Regrow food
             food.regrow()
-            # if food was generated within existing snake, regrow
+            #If food was generated within existing snake, regrow
             while food.position in self.body:
                 food.regrow()
-                # TODO check if any fields possible at all!!
+                #TODO check if any fields possible at all!!
         else:
-            # ... just move
-            # append body except last element to self position as new body
+            #... just move
+            #Append body except last element to self position as new body
             self.body = [self.position] + self.body[:len(self.body)-1]
 
 
 class Food:
     def __init__(self):
-        # get random position from display size in 10s of pxls
+        #Get random position from display size in 10s of pxls
         self.regrow()
 
     def regrow(self):
-        # get random position from display size in 10s of pxls
+        #Get random position from display size in 10s of pxls
         w,h = pygame.display.get_surface().get_size()
         self.position = [random.randrange(0, (w / 10)-1)*10,
                          random.randrange(0, (h / 10)-1)*10]
@@ -99,7 +101,6 @@ def showScore(snake):
     scoreSurf = scoreFont.render('Score: {0}'.format(snake.score), True, white)
     scoreRect = scoreSurf.get_rect()
     scoreRect.midtop = (80,10)
-
     gameSurface.blit(scoreSurf, scoreRect)
 
 #Game Over
@@ -117,8 +118,7 @@ def gameOver(snake):
     pygame.quit()
     sys.exit()
 
-
-# initialize snake and food:
+#Initialising snake and food:
 sn = Snake()
 fd = Food()
 
@@ -140,13 +140,15 @@ while True:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
     sn.move(fd)
 
-    # clear screen
+    #Clear screen
     gameSurface.fill(black)
-    # draw snake
+    
+    #Draw snake
     for position in sn.body:
         pygame.draw.rect(gameSurface,green,
                          pygame.Rect(position[0],position[1],10,10))
-    # draw food
+    
+    #Draw food
     pygame.draw.rect(gameSurface,orange,
                      pygame.Rect(fd.position[0],fd.position[1],10,10))
 
