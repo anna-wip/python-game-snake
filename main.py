@@ -5,6 +5,14 @@ import sys
 import time
 import random
 
+#Initialising the game
+pygame.init()
+
+#Game Surface
+gameSurface = pygame.display.set_mode((500,250))
+pygame.display.set_caption("Python Snake Game")
+pygame.time.wait(1000)
+
 #Colors
 black = pygame.Color(0,0,0)#Background
 white = pygame.Color(255,255,255)#Score
@@ -12,8 +20,11 @@ green = pygame.Color(173,255,47)#Snake
 orange = pygame.Color(255,165,0)#Food
 red = pygame.Color(255,64,64)#GameOver
 
+#FPS Controller
+fpsController = pygame.time.clock()
+
 #Variables and directions
-class Snake()
+class Snake:
     def __init__(self):
         self.body = [[40,50],[30,50],[20,50]]
         self.position = [50]
@@ -32,48 +43,40 @@ class Snake()
     def move(self,foodPosition):
         if self.direction == 'RIGHT':
             self.position += 10
-         if self.direction == 'LEFT':
+        if self.direction == 'LEFT':
             self.position -= 10
         if self.direction == 'UP':
             self.position -= 10
         if self.direction == 'DOWN':
             self.position += 10
 
-class Food()
+class Food:
     def __init__(self):
         self.position = [random.randrange(1,50)*10, random.randrange(1,25)*10]
         self.spawn = true
 
-#FPS Controller
-fpsController = pygame.time.clock()
-
 #Score
 score = 0
 
-#Initialising the game
-snake = Snake()
-food = Food()
-
-gameSurface = pygame.display.setMode((500,250)
-gameSurface.fill(black)
-pygame.display.set_caption("Your Snake Game starts in the next few seconds...")
-pygame.time.wait(1000)
-
-#Score
-def showScore(choice=1)
+def showScore(choice=1):
     scoreFont = pygame.font.SysFont('arial',24)
     scoreSurf = scoreFont.render('Score:{0}'.format(score), True, white)
     scoreRect = scoreSurf.get_rect()
     if choice ==1:
         scoreRect.midtop = (80,10)
-    else
+    else:
         scoreRect.midtop = (360,150)
 
     gameSurface.blit(scoreSurf, scoreRect)
 
 #Game Over
 def gameOver():
-    pygame.display.setCaption("Snake Game | Your score: "+str(score)+" | GAME OVER)
+    myFont = pygame.font.SysFont('arial, 80')
+    gameOverSurf = myFont.render("Snake Game | Your score: "+str(score)+" | GAME OVER", True, red)
+    gameOverRect = GameOverSurf.get_rect()
+    gameOver.midtop = (250,25)
+    playSurface.blit(gameOverSurf, gameOverRect)
+    showScore(0)
     pygame.display.flip()
     time.sleep(3)
     pygame.quit()
@@ -97,14 +100,15 @@ while True:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
 
 foodPosition = foodSpawn()
-    if snake.move(foodPosition) == 1:
-        score +=1
-        foodSpawn = False
-    else snakeBody.pop
+if snake.move(foodPosition) == 1:
+    score +=1
+    foodSpawn = False
+else:
+    snakeBody.pop
 
 gameSurface.fill(black)
-    for position in snakeBody:
-        pygame.draw.rect(gameSurface,green,pygame.Rect(snakePosition[0],snakePosition[1],10,10))
+for position in snakeBody:
+    pygame.draw.rect(gameSurface,green,pygame.Rect(snakePosition[0],snakePosition[1],10,10))
 
 pygame.draw.rect(gameSurface,orange,pygame.Rect(foodPosition[0],foodPosition[1],10,10))
 
